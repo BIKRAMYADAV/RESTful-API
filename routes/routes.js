@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Blog = require('../models/model')
-
+const app = require('../index')
+const bodyParser = require('body-parser')
 
 //learn about router in express theory
 
@@ -24,6 +25,7 @@ router.get('/get/:id', async (req, res) => {
     try{
         const blog = await Blog.findById(req.params.id);
         res.json(blog);
+        
     }
     catch(error){
         res.status(400).json({message : error.message})
@@ -37,8 +39,9 @@ router.post('/post', async (req, res) => {
         age : req.body.age
     })
     try{
+        
         const savedBlog = await blog.save();
-        res.status(200).json(savedBlog);
+        return res.redirect('../public/signup_success.html')
     }
     catch(error){
         res.status(400).json({message : error.message})

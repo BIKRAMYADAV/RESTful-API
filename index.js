@@ -1,20 +1,27 @@
 // Add express and mongoose
 const express = require('express')
 const mongoose = require('mongoose')
-const routes = require('./routes/routes')
+const routes = require('./routes/routes');
+const bodyParser = require('body-parser');
+
 
 //setting up the app
 const app = express()
 
 //middleware that makes the server accept data in JSON
 app.use(express.json());
-
+app.use(bodyParser.json());
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({
+    extended: true
+})) ;
 
 // we need to add another middleware to use the route
 // here /api refers to the base endpoint
 // all our endpoints start from /api
 //also note that the path is localhost:3000/api/get
 app.use('/api',routes);
+
 
 
 //setting up the server to listen on port 3000
@@ -35,5 +42,6 @@ database().then((result) => {
     console.log(error);
 })
 
+module.exports = app
 
 
